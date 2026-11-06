@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Question</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0c0c12;
+    font-family: Arial, sans-serif;
+    color: white;
+    overflow: hidden;
+}
+
+.card {
+    width: 90%;
+    max-width: 500px;
+    padding: 55px 30px;
+    text-align: center;
+    background: #171720;
+    border: 1px solid #292936;
+    border-radius: 24px;
+    box-shadow: 0 20px 80px #0008;
+}
+
+.heart {
+    font-size: 55px;
+    margin-bottom: 25px;
+}
+
+h1 {
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+p {
+    color: #9999aa;
+    margin-bottom: 40px;
+}
+
+.buttons {
+    position: relative;
+    height: 65px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+}
+
+button {
+    border: none;
+    padding: 15px 35px;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#yes {
+    background: #ffffff;
+    color: #111;
+}
+
+#yes:hover {
+    transform: scale(1.1);
+    background: #e6e6e6;
+}
+
+#no {
+    background: #343440;
+    color: white;
+    position: relative;
+    z-index: 5;
+}
+
+#success {
+    display: none;
+    margin-top: 30px;
+    font-size: 23px;
+    color: #ffffff;
+    animation: appear 0.5s ease;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="heart">♡</div>
+
+    <h1 id="question">Will you say YES?</h1>
+    <p id="subtitle">I have a little question for you...</p>
+
+    <div class="buttons" id="buttonArea">
+        <button id="yes">YES</button>
+        <button id="no">NO</button>
+    </div>
+
+    <div id="success"></div>
+
+</div>
+
+<script>
+
+// ==================================
+// CUSTOMIZE YOUR QUESTION HERE
+// ==================================
+
+const QUESTION = "Will you go out with me?";
+const SUBTITLE = "I have something to ask you...";
+const SUCCESS_MESSAGE = "I KNEW IT! ❤️";
+
+// ==================================
+
+document.getElementById("question").textContent = QUESTION;
+document.getElementById("subtitle").textContent = SUBTITLE;
+
+const noButton = document.getElementById("no");
+const yesButton = document.getElementById("yes");
+const buttonArea = document.getElementById("buttonArea");
+
+function moveNoButton() {
+
+    // Make the button move around the screen
+    const maxX = window.innerWidth - noButton.offsetWidth - 20;
+    const maxY = window.innerHeight - noButton.offsetHeight - 20;
+
+    const x = Math.max(10, Math.random() * maxX);
+    const y = Math.max(10, Math.random() * maxY);
+
+    noButton.style.position = "fixed";
+    noButton.style.left = x + "px";
+    noButton.style.top = y + "px";
+}
+
+// Run away when approached
+noButton.addEventListener("mouseenter", moveNoButton);
+
+// Run away when touched
+noButton.addEventListener("touchstart", (event) => {
+    event.preventDefault();
+    moveNoButton();
+});
+
+// Clicking NO does nothing except run away
+noButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    moveNoButton();
+});
+
+// YES is the only button that works
+yesButton.addEventListener("click", () => {
+
+    buttonArea.style.display = "none";
+    document.getElementById("subtitle").style.display = "none";
+
+    const success = document.getElementById("success");
+
+    success.textContent = SUCCESS_MESSAGE;
+    success.style.display = "block";
+
+});
+
+</script>
+
+</body>
+</html>
